@@ -5,6 +5,9 @@ block content
     table
        th
         each day, i in days
-            th
-                span=day.name
+            th=day.name
+    
+       tr
+          each guest, i in guests
+             td=guest.name
 

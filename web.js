@@ -55,11 +55,9 @@ app.get('/', function(req, res){
 	
 	pgClient.query('SELECT * FROM day', function(err, day_result) {
 		var days = day_result.rows;
-	res.render('index', {"days":days});
 		pgClient.query('SELECT * FROM guest', function(err, result) {
 			var guests = result.rows;
 			res.render('index', {"guests" : guests, "days":days});
 		});
 	});
-	
 });
