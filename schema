@@ -1,0 +1,21 @@
+createdb scituate;
+
+create table guest (id serial, name varchar(255) not null, veg boolean not null default false);
+
+create table day (id serial, name varchar(255) not null, rank int not null unique);
+
+create table visit (guest_id int not null, day_id int not null, cooking boolean not null default false);
+
+
+insert into day (name, rank) values 
+('July 2nd Evening', 1), 
+('July 3rd Morning', 2),
+('July 3rd Afternoon', 3),
+('July 3rd Evening', 4),
+('July 4rd Morning', 5),
+('July 4rd Afternoon', 6),
+('July 4rd Evening', 7),
+('July 5rd Morning', 8),
+('July 5rd Afternoon', 9),
+('July 5rd Evening', 10),
+('July 6rd Morning', 11);
