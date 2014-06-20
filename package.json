@@ -1,0 +1,15 @@
+{
+  "name": "scituate_node",
+  "version": "0.0.0",
+  "description": "Scitutate 2014 node",
+  "main": "web.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "logfmt": "~1.1.2",
+    "express": "~4.4.3"
+  }
+}
