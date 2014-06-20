@@ -1,15 +1,23 @@
 {
   "name": "scituate_node",
   "version": "0.0.0",
-  "description": "Scitutate 2014 node",
+  "description": "Scituate 2014 node",
   "main": "web.js",
+  "dependencies": {
+    "express": "~4.4.3",
+    "logfmt": "~1.1.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "test"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romanzadov/scituate-node.git"
+  },
+  "author": "Roman Zadov",
   "license": "BSD-2-Clause",
-  "dependencies": {
-    "logfmt": "~1.1.2",
-    "express": "~4.4.3"
+  "bugs": {
+    "url": "https://github.com/romanzadov/scituate-node/issues"
   }
 }
