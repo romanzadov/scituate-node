@@ -93,7 +93,7 @@ function getVisitRows(guest, numberOfDays) {
 		var visitsAndNot={};
 		for (var i = 0; i<numberOfDays; i++) {
 			var visitOnDay = null;
-			for (var j = 0; j<visits.size(); j++) {
+			for (var j = 0; j<result.rowCount; j++) {
 				var visit = visits[j];
 				if (visit.day_id == i) { visitOnDay = visit; }
 			}
