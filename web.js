@@ -80,7 +80,7 @@ app.get('/', function(req, res){
 			var guests = guest_result.rows;
 			var guestCount = guest_result.rowCount;
 				
-			pgClient.query("SELECT * FROM visit;", function(err, visit_result){
+			pgClient.query("SELECT * FROM visit", function(err, visit_result){
 				var guestVisitRows=[];
 				var visits = visit_result.list;
 				var visitCount = visit_result.rowCount;
@@ -88,9 +88,7 @@ app.get('/', function(req, res){
 				console.log("Getting visits: "+visitCount + " guests: " + guestCount);
 				
 				for (var i = 0; i<guestCount; i++) {
-					console.log("In guest loop i: " +i);
 					var guest = guests[i];
-					console.log("getting row for guest " + guest.id);
 					guestVisitRows[i]={"guest":guest, "visitRow": getVisitRowForGuest(guest, visits, visitCount, days, dayCount)};
 				}
 				res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
@@ -100,6 +98,7 @@ app.get('/', function(req, res){
 });
 
 function getVisitRowForGuest(guest, visits, visitCount, days, dayCount) {
+	console.log("visits: " + visits);
 	console.log("Guest: " + guest.id + " visits: " + visitCount + " days: " + dayCount);
 	var visitRow = [];
 	for (var i = 0; i<dayCount; i++) {
