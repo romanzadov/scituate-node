@@ -88,7 +88,7 @@ app.get('/', function(req, res){
 });
 
 function getVisitRows(guest, numberOfDays) {
-	pgClient.query("SELECT * FROM visit where guestId="+guest.id+";", function(err, result){
+	pgClient.query("SELECT * FROM visit where guest_id="+guest.id+";", function(err, result){
 		var visits = result.list;
 		var visitsAndNot=[];
 		for (var i = 0; i<numberOfDays; i++) {
