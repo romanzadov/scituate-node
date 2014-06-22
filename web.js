@@ -86,10 +86,8 @@ app.get('/', function(req, res){
 				var visitCount = visit_result.rowCount;
 				
 				console.log("Getting visits: "+visitCount + " guests: " + guestCount);
-				for (var i; i<guestCount; i++) {
-					console.log("In guest loop i: " +i);
-				}
-				for (var i; i<guestCount; i++) {
+				
+				for (var i = 0; i<guestCount; i++) {
 					console.log("In guest loop i: " +i);
 					var guest = guests[i];
 					console.log("getting row for guest " + guest.id);
