@@ -92,13 +92,16 @@ app.get('/', function(req, res){
 });
 
 function getVisitRowForGuest(guest, visits, visitCount, days, dayCount) {
+	console.log("Guest: " + guest.id + " visits: " + visitCount + " days: " + dayCount);
 	var visitRow = [];
 	for (var i = 0; i<dayCount; i++) {
 		var day = days[i];
 		var visitOnDay = null;
 		for (var j = 0; j<visitCount; j++) {
 			var visit = visits[j];
-			if (visit.day_id == i && visit.guest_id == guest.id) { visitOnDay = visit; }
+			if (visit.day_id == i && visit.guest_id == guest.id) {
+				visitOnDay = visit; 
+		    }
 		}
 		visitRow[i] = {"visit": visitOnDay};
 	}
