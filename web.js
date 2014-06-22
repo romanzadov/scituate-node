@@ -81,11 +81,11 @@ app.get('/', function(req, res){
 			pgClient.query("SELECT * FROM visit;", function(err, visit_result){
 				var guestVisitRows=[];
 				var visits = visit_result.list;
-				console.log("Getting visits: "+visit_result.rowCount);
+				console.log("Getting visits: "+visit_result.rowCount + " guests: " + guest_result.rowCount);
 				for (var g; g<guest_result.rowCount; g++) {
-					var guest = guests[i];
+					var guest = guests[g];
 					console.log("getting row for guest " + guest.id);
-					guestVisitRows[i]={"guest":guest, "visitRow": getVisitRowForGuest(guest, visits, visit_result.rowCount, days, day_result.rowCount)};
+					guestVisitRows[g]={"guest":guest, "visitRow": getVisitRowForGuest(guest, visits, visit_result.rowCount, days, day_result.rowCount)};
 				}
 				res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
 			});
