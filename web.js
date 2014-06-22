@@ -96,7 +96,6 @@ app.get('/', function(req, res){
 });
 
 function getVisitRowForGuest(guest, visits, visitCount, days, dayCount) {
-	console.log("visits: " + visits);
 	console.log("Guest: " + guest.id + " visits: " + visitCount + " days: " + dayCount);
 	var visitRow = [];
 	for (var i = 0; i<dayCount; i++) {
@@ -108,12 +107,10 @@ function getVisitRowForGuest(guest, visits, visitCount, days, dayCount) {
 				visitOnDay = visit; 
 		    }
 		}
-		if (visitOnDay != null) {
-		console.log("visit on day: " + visitOnDay.day_id + " | " + visitOnDay.guest_id);
-		} else {
-			console.log("null");
-		}
 		visitRow[i] = {"visit": visitOnDay};
+	}
+	for (var i = 0; i<visitRow.size; i++) {
+		console.log("Visit: " + visitRow[i]);
 	}
 	return visitRow;
 }
