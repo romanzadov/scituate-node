@@ -77,10 +77,10 @@ app.get('/', function(req, res){
 		
 		pgClient.query('SELECT * FROM guest', function(err, result) {
 			var guests = result.rows;
-			var guestVisitRows={};
+			var guestVisitRows=[];
 			for (var i = 0; i<result.rowCount; i++) {
 				var guest = guests[i];
-				guestVisitRows.push({"guest":guest, "visitRow": getVisitRows(guest, day_result.rowCount)});
+				guestVisitRows[i]={"guest":guest, "visitRow": getVisitRows(guest, day_result.rowCount)};
 			}
 			res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
 		});
@@ -90,14 +90,14 @@ app.get('/', function(req, res){
 function getVisitRows(guest, numberOfDays) {
 	pgClient.query("SELECT * FROM visit where guestId="+guest.id+";", function(err, result){
 		var visits = result.list;
-		var visitsAndNot={};
+		var visitsAndNot=[];
 		for (var i = 0; i<numberOfDays; i++) {
 			var visitOnDay = null;
 			for (var j = 0; j<result.rowCount; j++) {
 				var visit = visits[j];
 				if (visit.day_id == i) { visitOnDay = visit; }
 			}
-			visitsAndNot.push({"visit": visitOnDay});
+			visitsAndNot[i] = {"visit": visitOnDay};
 		}
 		return visitsAnNot;
 	});
