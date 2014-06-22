@@ -80,29 +80,25 @@ app.get('/', function(req, res){
 			var guestVisitRows=[];
 			for (var i = 0; i<result.rowCount; i++) {
 				var guest = guests[i];
-				guestVisitRows[i]={"guest":guest, "visitRow": getVisitRows(guest, day_result.rowCount)};
+				
+				pgClient.query("SELECT * FROM visit where guest_id="+guest.id+";", function(err, visit_result){
+					var visits = visit_result.list;
+					var visitRow=[];
+					
+					for (var i = 0; i<numberOfDays; i++) {
+						var visitOnDay = null;
+						for (var j = 0; j<result.rowCount; j++) {
+							var visit = visits[j];
+							if (visit.day_id == i) { visitOnDay = visit; }
+						}
+						visitRow[i] = {"visit": visitOnDay};
+					}
+					return visitsAnNot;
+					guestVisitRows[i]={"guest":guest, "visitRow": visitRow};
+				});
+				
 			}
 			res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
 		});
 	});
 });
-
-function getVisitRows(guest, numberOfDays) {
-	pgClient.query("SELECT * FROM visit where guest_id="+guest.id+";", function(err, result){
-		
-		var visits = result.list;
-		var visitsAndNot=[];
-		
-		console.log("visit of " + guest.name + " | count: " +result.rowCount);
-		console.log("result: "+result.list);
-		for (var i = 0; i<numberOfDays; i++) {
-			var visitOnDay = null;
-			for (var j = 0; j<result.rowCount; j++) {
-				var visit = visits[j];
-				if (visit.day_id == i) { visitOnDay = visit; }
-			}
-			visitsAndNot[i] = {"visit": visitOnDay};
-		}
-		return visitsAnNot;
-	});
-}
