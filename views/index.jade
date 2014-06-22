@@ -8,6 +8,9 @@ block content
             th=day.name
     
        tr
-          each guest, i in guests
-             td=guest.name
-
+          each guestVisitRow, i in guestVisitRows
+             td=guestVisitRow.guest.name //class = guest.veg
+			 
+			 each visit, i in guestVisitRow
+                 if (null) td
+                 else td //class=visit ? veg

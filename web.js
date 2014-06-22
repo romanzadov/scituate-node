@@ -17,8 +17,9 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });
 
+var conString = process.env.DATABASE_URL;
 
-pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+pg.connect(conString, function(err, client, done) {
   pgClient = client;
 });
 
@@ -36,7 +37,7 @@ app.get('/api/days', function(req, res) {
 });
 
 app.get('/api/guests', function(req, res) {
-	  pgClient.query('SELECT * FROM guest', function(err, result) {
+	  pgClient.query('SELECT * FROM guest;', function(err, result) {
 		res.send(result.rows);
 	  });
 });
@@ -57,7 +58,28 @@ app.get('/', function(req, res){
 		var days = day_result.rows;
 		pgClient.query('SELECT * FROM guest', function(err, result) {
 			var guests = result.rows;
-			res.render('index', {"guests" : guests, "days":days});
+			var guestVisitRows={};
+			for (var i = 0; i<guests.size(); i++) {
+				var guest = guests[i];
+				guestVisitRows.push({"guest":guest, "visitRow": getVisitRows(guest, days.size())});
+			}
+			res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
 		});
 	});
 });
+
+function getVisitRows(guest, numberOfDays) {
+	pgClient.query("SELECT * FROM visit where guestId="+guest.id+";", function(err, result){
+		var visits = result.list;
+		var visitsAndNot={};
+		for (var i = 0; i<numberOfDays; i++) {
+			var visitOnDay = null;
+			for (var j = 0; j<visits.size(); j++) {
+				var visit = visits[j];
+				if (visit.day_id == i) { visitOnDay = visit; }
+			}
+			visitsAndNot.push({"visit": visitOnDay});
+		}
+		return visitsAnNot;
+	});
+}
