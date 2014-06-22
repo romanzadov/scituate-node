@@ -71,8 +71,7 @@ app.get('/api/guests', function(req, res) {
 
 
 app.get('/', function(req, res){
-	res.render('index');
-	/*pgClient.query('SELECT * FROM day;', function(err, result) {
+	pgClient.query('SELECT * FROM day;', function(err, result) {
 		res.render('index', {"days":days});
 	  });
 	/*pgClient.query('SELECT * FROM day', function(err, day_result) {
