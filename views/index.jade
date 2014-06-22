@@ -10,7 +10,6 @@ block content
        
           each guestVisitRow, i in guestVisitRows
              tr
-               td=guestVisitRow.guest.name 
-			 
-			   each visit, i in guestVisitRow
-                 td=visit
+               td=guestVisitRow.guest.name
+               each visit, i in guestVisitRow
+                  td=visit
