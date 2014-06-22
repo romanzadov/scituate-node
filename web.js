@@ -2,7 +2,6 @@
 var express = require("express");
 var logfmt = require("logfmt");
 var pg = require('pg');
-var urlencode = require('urlencode');
 var bodyParser = require('body-parser');
 var pgClient;
 var path = require('path');
@@ -25,15 +24,41 @@ pg.connect(conString, function(err, client, done) {
 
 app.use(logfmt.requestLogger());
 
-app.get('/api/days', function(req, res) {
+app.get('/guests/add', function(req, res) {
 	  var html = '<form action="/api/guests/add" method="post">' +
                'Enter your name:' +
+               '<input type="text" name="userName" placeholder="..." />' +
+               '<input type="checkbox" name="veg"/> Vegetarian' +
+               '<br>' +
+               '<button type="submit">Submit</button>' +
+            '</form>';
+               
+  res.send(html);
+});
+app.post('/api/guests/add', function(req, res) {
+    var userName =req.body.userName;
+    var veg = req.body.veg;
+    var vegValue;
+    if (veg) { vegValue = "t";}
+    else { vegValue = "f";}
+    console.log("veg: " + veg);
+    console.log('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
+    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
+});
+
+app.get('/guests/delete', function(req, res) {
+	  var html = '<form action="/api/guests/remove" method="post">' +
+               'Remove guest by name:' +
                '<input type="text" name="userName" placeholder="..." />' +
                '<br>' +
                '<button type="submit">Submit</button>' +
             '</form>';
                
   res.send(html);
+});
+app.post('/api/guests/remove', function(req, res) {
+    var userName =req.body.userName;
+    pgClient.query('delete from guest where name=\''+ userName +'\';');
 });
 
 app.get('/api/guests', function(req, res) {
@@ -42,15 +67,8 @@ app.get('/api/guests', function(req, res) {
 	  });
 });
 
-app.post('/api/guests/add', function(req, res) {
-    var userName =req.body.userName;
-    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \'f\');');
-});
 
-app.post('/api/guests/remove', function(req, res) {
-    var userName =req.body.userName;
-    pgClient.query('delete from guest where name=\''+ userName +'\';');
-});
+
 
 app.get('/', function(req, res){
 	

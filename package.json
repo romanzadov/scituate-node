@@ -8,7 +8,8 @@
     "logfmt": "~1.1.2",
     "pg": "*",
     "body-parser": "*",
-    "path": "*"
+    "path": "*",
+    "jade": "*"
   },
   "devDependencies": {},
   "scripts": {
