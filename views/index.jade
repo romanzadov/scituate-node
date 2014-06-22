@@ -9,7 +9,8 @@ block content
     
        
           each guestVisitRow, i in guestVisitRows
-             tr
+             if guestVisitRow.visitRow
+              tr
                td=guestVisitRow.guest.name
-               each visit, i in guestVisitRow.visitRow
-                  td=visit
+                 each visit, i in guestVisitRow.visitRow
+                   td=visit
