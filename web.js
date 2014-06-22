@@ -41,6 +41,8 @@ app.post('/api/guests/add', function(req, res) {
     var vegValue;
     if (veg) { vegValue = "t";}
     else { vegValue = "f";}
+    console.log("veg: " + veg);
+    console.log('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
     pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
 });
 
@@ -69,8 +71,9 @@ app.get('/api/guests', function(req, res) {
 
 
 app.get('/', function(req, res){
-	pgClient.query('SELECT * FROM day;', function(err, result) {
-		res.send(result.rows);
+	res.render('index');
+	/*pgClient.query('SELECT * FROM day;', function(err, result) {
+		res.render('index', {"days":days});
 	  });
 	/*pgClient.query('SELECT * FROM day', function(err, day_result) {
 		var days = day_result.rows;
