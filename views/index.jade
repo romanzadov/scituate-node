@@ -7,10 +7,10 @@ block content
         each day, i in days
             th=day.name
     
-       tr
+       
           each guestVisitRow, i in guestVisitRows
-             td=guestVisitRow.guest.name 
-//			 
-//			 each visit, i in guestVisitRow
- //                if (null) td
- //                else td //class=visit ? veg
+             tr
+               td=guestVisitRow.guest.name 
+			 
+			   each visit, i in guestVisitRow
+                 td=visit
