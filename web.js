@@ -24,15 +24,36 @@ pg.connect(conString, function(err, client, done) {
 
 app.use(logfmt.requestLogger());
 
-app.get('/api/days', function(req, res) {
+app.get('/api/guests/add', function(req, res) {
 	  var html = '<form action="/api/guests/add" method="post">' +
                'Enter your name:' +
+               '<input type="text" name="userName" placeholder="..." />' +
+               '<input type="checkbox" name="veg"'
+               '<br>' +
+               '<button type="submit">Submit</button>' +
+            '</form>';
+               
+  res.send(html);
+});
+app.post('/api/guests/add', function(req, res) {
+    var userName =req.body.userName;
+    var veg = req.body.veg;
+    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \''+veg+'\');');
+});
+
+app.get('/api/guests/delete', function(req, res) {
+	  var html = '<form action="/api/guests/remove" method="post">' +
+               'Remove guest by id:' +
                '<input type="text" name="userName" placeholder="..." />' +
                '<br>' +
                '<button type="submit">Submit</button>' +
             '</form>';
                
   res.send(html);
+});
+app.post('/api/guests/remove', function(req, res) {
+    var userName =req.body.userName;
+    pgClient.query('delete from guest where name=\''+ userName +'\';');
 });
 
 app.get('/api/guests', function(req, res) {
@@ -41,15 +62,8 @@ app.get('/api/guests', function(req, res) {
 	  });
 });
 
-app.post('/api/guests/add', function(req, res) {
-    var userName =req.body.userName;
-    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \'f\');');
-});
 
-app.post('/api/guests/remove', function(req, res) {
-    var userName =req.body.userName;
-    pgClient.query('delete from guest where name=\''+ userName +'\';');
-});
+
 
 app.get('/', function(req, res){
 	pgClient.query('SELECT * FROM day;', function(err, result) {
