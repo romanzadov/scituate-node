@@ -74,12 +74,13 @@ app.get('/', function(req, res){
 	
 	pgClient.query('SELECT * FROM day', function(err, day_result) {
 		var days = day_result.rows;
+		
 		pgClient.query('SELECT * FROM guest', function(err, result) {
 			var guests = result.rows;
 			var guestVisitRows={};
-			for (var i = 0; i<guests.size(); i++) {
+			for (var i = 0; i<result.rowCount; i++) {
 				var guest = guests[i];
-				guestVisitRows.push({"guest":guest, "visitRow": getVisitRows(guest, days.size())});
+				guestVisitRows.push({"guest":guest, "visitRow": getVisitRows(guest, day_result.rowCount)});
 			}
 			res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
 		});
