@@ -72,6 +72,7 @@ app.get('/api/guests', function(req, res) {
 
 app.get('/', function(req, res){
 	pgClient.query('SELECT * FROM day;', function(err, result) {
+		var days = day_result.rows;
 		res.render('index', {"days":days});
 	  });
 	/*pgClient.query('SELECT * FROM day', function(err, day_result) {
