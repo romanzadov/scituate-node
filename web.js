@@ -24,7 +24,7 @@ pg.connect(conString, function(err, client, done) {
 
 app.use(logfmt.requestLogger());
 
-app.get('/api/guests/add', function(req, res) {
+app.get('/guests/add', function(req, res) {
 	  var html = '<form action="/api/guests/add" method="post">' +
                'Enter your name:' +
                '<input type="text" name="userName" placeholder="..." />' +
@@ -38,12 +38,15 @@ app.get('/api/guests/add', function(req, res) {
 app.post('/api/guests/add', function(req, res) {
     var userName =req.body.userName;
     var veg = req.body.veg;
-    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \''+veg+'\');');
+    var vegValue;
+    if (veg) { vegValue = "t";}
+    else { vegValue = "f";}
+    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
 });
 
-app.get('/api/guests/delete', function(req, res) {
+app.get('/guests/delete', function(req, res) {
 	  var html = '<form action="/api/guests/remove" method="post">' +
-               'Remove guest by id:' +
+               'Remove guest by name:' +
                '<input type="text" name="userName" placeholder="..." />' +
                '<br>' +
                '<button type="submit">Submit</button>' +
