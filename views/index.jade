@@ -13,7 +13,7 @@ block content
               tr
                td=guestVisitRow.guest.name
                  each visit, i in guestVisitRow.visitRow
-                   if visit.day_id
+                   if visit
                       td=visit
                    else
                       td
