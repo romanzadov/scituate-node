@@ -2,7 +2,6 @@
 var express = require("express");
 var logfmt = require("logfmt");
 var pg = require('pg');
-var urlencode = require('urlencode');
 var bodyParser = require('body-parser');
 var pgClient;
 var path = require('path');
