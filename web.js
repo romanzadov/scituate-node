@@ -53,8 +53,10 @@ app.post('/api/guests/remove', function(req, res) {
 });
 
 app.get('/', function(req, res){
-	
-	pgClient.query('SELECT * FROM day', function(err, day_result) {
+	pgClient.query('SELECT * FROM day;', function(err, result) {
+		res.send(result.rows);
+	  });
+	/*pgClient.query('SELECT * FROM day', function(err, day_result) {
 		var days = day_result.rows;
 		pgClient.query('SELECT * FROM guest', function(err, result) {
 			var guests = result.rows;
@@ -65,7 +67,7 @@ app.get('/', function(req, res){
 			}
 			res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
 		});
-	});
+	});*/
 });
 
 function getVisitRows(guest, numberOfDays) {
