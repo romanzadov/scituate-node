@@ -108,7 +108,7 @@ function getVisitRowForGuest(guest, visits, visitCount, days, dayCount) {
 				visitOnDay = visit; 
 		    }
 		}
-		console.log("visit on day: " + visitOnDay.day_id + " | " visitOnDay.guest_id);
+		console.log("visit on day: " + visitOnDay.day_id + " | " + visitOnDay.guest_id);
 		visitRow[i] = {"visit": visitOnDay};
 	}
 	return visitRow;
