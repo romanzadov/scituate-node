@@ -82,10 +82,8 @@ app.get('/', function(req, res){
 				
 			pgClient.query("SELECT * FROM visit", function(err, visit_result){
 				var guestVisitRows=[];
-				var visits = visit_result.list;
+				var visits = visit_result.rows;
 				var visitCount = visit_result.rowCount;
-				
-				console.log("Getting visits: "+visitCount + " guests: " + guestCount);
 				
 				for (var i = 0; i<guestCount; i++) {
 					var guest = guests[i];
