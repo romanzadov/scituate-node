@@ -6,11 +6,28 @@ block content
        th
         each day, i in days
             th=day.name
-    
+            
        tr
-          each guestVisitRow, i in guestVisitRows
-             td=guestVisitRow.guest.name //class = guest.veg
-			 
-			 each visit, i in guestVisitRow
-                 if (null) td
-                 else td //class=visit ? veg
+        td="Total visitors"
+        each day, i in days
+          td=day.visitors
+       tr
+        td="Total Veg"
+        each day, i in days
+          td=day.veg
+       tr
+         td="Cotal Cooking"
+         each day, i in days
+          td=day.cooking
+            
+       each guestVisitRow, i in guestVisitRows
+               tr
+               td=guestVisitRow.guest.name
+                each visit, index in guestVisitRow.visitRow
+                  if visit
+                    if visit.cooking
+                       td.visit="Cooking"
+                    else
+                       td.visit
+                  else
+                    td

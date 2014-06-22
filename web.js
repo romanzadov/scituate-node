@@ -56,30 +56,67 @@ app.get('/', function(req, res){
 	
 	pgClient.query('SELECT * FROM day', function(err, day_result) {
 		var days = day_result.rows;
-		pgClient.query('SELECT * FROM guest', function(err, result) {
-			var guests = result.rows;
-			var guestVisitRows={};
-			for (var i = 0; i<guests.size(); i++) {
-				var guest = guests[i];
-				guestVisitRows.push({"guest":guest, "visitRow": getVisitRows(guest, days.size())});
-			}
-			res.render('index', {"guestVisitRows" : guestVisitRows, "days":days});
+		var dayCount = day_result.rowCount;
+		
+		pgClient.query('SELECT * FROM guest', function(err, guest_result) {
+			var guests = guest_result.rows;
+			var guestCount = guest_result.rowCount;
+			
+			var guestVisitRows = [];
+			pgClient.query("SELECT * FROM visit", function(err, visit_result){
+				var visits = visit_result.rows;
+				var visitCount = visit_result.rowCount;
+				
+				for (var i = 0; i<guestCount; i++){
+					var guest = guests[i];
+					guestVisitRows[i] = {"guest":guest, "visitRow": getVisitRows(guest, visits, visitCount, days, dayCount)}
+				}
+				var dayTotals = getDayTotalRows(guests, guestCount, days, dayCount, visits, visitCount);
+				res.render('index', {"guestVisitRows" : guestVisitRows, "days":dayTotals});
+			});
 		});
 	});
 });
 
-function getVisitRows(guest, numberOfDays) {
-	pgClient.query("SELECT * FROM visit where guestId="+guest.id+";", function(err, result){
-		var visits = result.list;
-		var visitsAndNot={};
-		for (var i = 0; i<numberOfDays; i++) {
-			var visitOnDay = null;
-			for (var j = 0; j<visits.size(); j++) {
-				var visit = visits[j];
-				if (visit.day_id == i) { visitOnDay = visit; }
-			}
-			visitsAndNot.push({"visit": visitOnDay});
+function getDayTotalRows(guests, guestCount, days, dayCount, visits, visitCount) {
+	var dayTotal = [];
+	
+	for (var i = 0; i<dayCount; i++) {
+		var visitors = 0;
+		var veg = 0;
+		var cooking = 0;
+		var day = days[i];
+		for (var j = 0; j<visitCount; j++) {
+			var visit = visits[j];
+			if (visit.day_id == days[i].id) { 
+				visitors++;
+				if (visit.cooking) { cooking++;}
+				for (var k = 0; k<guestCount; k++){
+					var guest = guests[k];
+					if (guest.id == visit.guest_id && guest.veg) {
+						veg++;
+					}
+				}
+			}			
 		}
-		return visitsAnNot;
-	});
+		dayTotal[i] = {"name": day.name, "visitors":visitors, "veg":veg, "cooking":cooking};
+		console.log("summary: " + dayTotal[i].visitors);
+	}
+	return dayTotal;
+}
+	
+function getVisitRows(guest, visits, visitCount, days, dayCount) {
+	var visitRow = [];
+	
+	for (var i = 0; i<dayCount; i++) {
+		var visitOnDay = null;
+		for (var j = 0; j<visitCount; j++) {
+			var visit = visits[j];
+			if (visit.day_id == days[i].id && visit.guest_id == guest.id) { 
+				visitOnDay = visit; 
+			}			
+		}
+		visitRow[i] = visitOnDay;
+	}
+	return visitRow;
 }
