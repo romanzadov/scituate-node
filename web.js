@@ -88,6 +88,9 @@ app.get('/', function(req, res){
 				console.log("Getting visits: "+visitCount + " guests: " + guestCount);
 				for (var i; i<guestCount; i++) {
 					console.log("In guest loop i: " +i);
+				}
+				for (var i; i<guestCount; i++) {
+					console.log("In guest loop i: " +i);
 					var guest = guests[i];
 					console.log("getting row for guest " + guest.id);
 					guestVisitRows[i]={"guest":guest, "visitRow": getVisitRowForGuest(guest, visits, visitCount, days, dayCount)};
