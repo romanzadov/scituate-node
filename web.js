@@ -28,7 +28,7 @@ app.get('/api/guests/add', function(req, res) {
 	  var html = '<form action="/api/guests/add" method="post">' +
                'Enter your name:' +
                '<input type="text" name="userName" placeholder="..." />' +
-               '<input type="checkbox" name="veg"/> Vegetarian'
+               '<input type="checkbox" name="veg"/> Vegetarian' +
                '<br>' +
                '<button type="submit">Submit</button>' +
             '</form>';
