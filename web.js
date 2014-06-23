@@ -113,6 +113,19 @@ app.post('/api/guests/add', function(req, res) {
     
    pgClient.query('insert into guest (name, veg) values ($1, $2) returning id', [name, veg]).on('row', function (row) {
    	   var guest = row;
+   	   
+   	   checked = getBool(req.body.day1);
+	   cooking = getBool(req.body.cooking1);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 1, cooking]);
+	   }
+	   
+	   checked = getBool(req.body.day2);
+	   cooking = getBool(req.body.cooking2);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 2, cooking]);
+		   res.redirect('/');
+	   }
 	   
    	   checked = getBool(req.body.day3);
 	   cooking = getBool(req.body.cooking3);
@@ -167,20 +180,7 @@ app.post('/api/guests/add', function(req, res) {
 	   if (checked) {
 		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 11, cooking]);
 	   }
-	   
-   	   checked = getBool(req.body.day12);
-	   cooking = getBool(req.body.cooking12);
-	   if (checked) {
-		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 12, cooking]);
-	   }
-	   
-	   checked = getBool(req.body.day13);
-	   cooking = getBool(req.body.cooking13);
-	   if (checked) {
-		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 14, cooking]);
-		   res.redirect('/');
-	   }
-	   
+
    });
 
    
