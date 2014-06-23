@@ -24,6 +24,8 @@ pg.connect(conString, function(err, client, done) {
 
 app.use(logfmt.requestLogger());
 
+app.use("/public", express.static(__dirname + '/public'));
+
 function getBool(formValue) {
   if(formValue) { return true; }
   return false;

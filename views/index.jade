@@ -1,26 +1,31 @@
 link(rel='stylesheet', href='public/style.css')
 block content
-    h1.
+    #header 
+     h1.
         Scituate 2014
-    table
+     h4.
+       Jesse's birthday beach party spectacular!
+    #grid
+     table
        th
         each day, i in days
             th=day.name            
-       tr
+       tr.total
         td="Total Visitors"
         each day, i in days
           td=day.visitors
-       tr
+       tr.total
         td="Total Veg"
-        each day, i in days
+        each day, i in days	
           td=day.veg
-       tr
+       tr.total
          td="Total Cooking"
          each day, i in days
           td=day.cooking
             
        each guestVisitRow, i in guestVisitRows
-               tr
+             tr
+             
                td=guestVisitRow.guest.name
                 each visit, index in guestVisitRow.visitRow
                   if visit
@@ -35,12 +40,14 @@ block content
                     input(type="hidden", name="guest", value=guestVisitRow.guest.id)
                     input(type="submit", value="X")
   
+#signup_text                   
   h2.
    Sign up here:
   p.
-    What times do you think you'll be in Scituate? You don't have to be 100% sure, I'm just trying to get a ballpark figure. If you think there's more than a 50% chance, say yes.<br> To avoid kitchen conflicts, click on when you want to cook. You don't have to cook - you can bring something - or even better just bring yourself. 
+    What times do you think you'll be in Scituate? You don't have to be 100% sure, I'm just trying to get a ballpark figure. If you think there's more than a 50% chance, say yes.
+  p.cooking="To avoid kitchen conflicts, click on when you want to cook. You don't have to cook - you can bring something - or even better just bring yourself."
                    
-  form(action='/api/guests/add',method='post')
+ form(action='/api/guests/add',method='post')
      
     table
        th="Your name"
