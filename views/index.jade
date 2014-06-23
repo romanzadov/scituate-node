@@ -1,13 +1,13 @@
+link(rel='stylesheet', href='public/style.css')
 block content
     h1.
-        User List
-    
+        Scituate 2014
     table
        th
         each day, i in days
             th=day.name            
        tr
-        td="Total visitors"
+        td="Total Visitors"
         each day, i in days
           td=day.visitors
        tr
@@ -25,9 +25,41 @@ block content
                 each visit, index in guestVisitRow.visitRow
                   if visit
                     if visit.cooking
-                       td.visit="Cooking"
+                       td.visit="cooking"
                     else
                        td.visit
                   else
                     td
-
+               td
+                 form(action='/api/guests/remove', method='post')
+                    input(type="hidden", name="guest", value=guestVisitRow.guest.id)
+                    input(type="submit", value="X")
+  
+  h2.
+   Sign up here:
+  p.
+    What times do you think you'll be in Scituate? You don't have to be 100% sure, I'm just trying to get a ballpark figure. If you think there's more than a 50% chance, say yes.<br> To avoid kitchen conflicts, click on when you want to cook. You don't have to cook - you can bring something - or even better just bring yourself. 
+                   
+  form(action='/api/guests/add',method='post')
+     
+    table
+       th="Your name"
+        each day, i in days
+            th=day.name     
+       tr
+         td
+           input(type="text", name="name")
+           div
+             input(type="checkbox", name="veg")
+             span=" vegetarian?"
+         each day, i in days
+            td
+              div
+                input(type="checkbox", name="day"+day.id)
+                span="  visiting"
+              div
+                input(type="checkbox", name="cooking"+day.id)
+                span=" cooking"
+       tr
+         td
+           input(type="submit")

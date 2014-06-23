@@ -24,51 +24,18 @@ pg.connect(conString, function(err, client, done) {
 
 app.use(logfmt.requestLogger());
 
-app.get('/guests/add', function(req, res) {
-	  var html = '<form action="/api/guests/add" method="post">' +
-               'Enter your name:' +
-               '<input type="text" name="userName" placeholder="..." />' +
-               '<input type="checkbox" name="veg"/> Vegetarian' +
-               '<br>' +
-               '<button type="submit">Submit</button>' +
-            '</form>';
-               
-  res.send(html);
-});
-app.post('/api/guests/add', function(req, res) {
-    var userName =req.body.userName;
-    var veg = req.body.veg;
-    var vegValue;
-    if (veg) { vegValue = "t";}
-    else { vegValue = "f";}
-    console.log("veg: " + veg);
-    console.log('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
-    pgClient.query('insert into guest (name, veg) values (\''+ userName +'\', \''+vegValue+'\');');
-});
+function getBool(formValue) {
+  if(formValue) { return true; }
+  return false;
+}
 
-app.get('/guests/delete', function(req, res) {
-	  var html = '<form action="/api/guests/remove" method="post">' +
-               'Remove guest by name:' +
-               '<input type="text" name="userName" placeholder="..." />' +
-               '<br>' +
-               '<button type="submit">Submit</button>' +
-            '</form>';
-               
-  res.send(html);
-});
 app.post('/api/guests/remove', function(req, res) {
-    var userName =req.body.userName;
-    pgClient.query('delete from guest where name=\''+ userName +'\';');
+    var id =req.body.guest;
+    pgClient.query('delete from guest where id=\''+ id +'\';');
+    pgClient.query('delete from visit where guest_id=\''+ id +'\';', function(err, response) {
+    		res.redirect('/');
+    });
 });
-
-app.get('/api/guests', function(req, res) {
-	  pgClient.query('SELECT * FROM guest;', function(err, result) {
-		res.send(result.rows);
-	  });
-});
-
-
-
 
 app.get('/', function(req, res){
 	
@@ -117,8 +84,7 @@ function getDayTotalRows(guests, guestCount, days, dayCount, visits, visitCount)
 				}
 			}			
 		}
-		dayTotal[i] = {"name": day.name, "visitors":visitors, "veg":veg, "cooking":cooking};
-		console.log("summary: " + dayTotal[i].visitors);
+		dayTotal[i] = {"name": day.name, "id": day.id, "visitors":visitors, "veg":veg, "cooking":cooking};
 	}
 	return dayTotal;
 }
@@ -138,3 +104,83 @@ function getVisitRows(guest, visits, visitCount, days, dayCount) {
 	}
 	return visitRow;
 }
+
+app.post('/api/guests/add', function(req, res) {
+   var name =req.body.name;
+   var veg = getBool(req.body.veg);
+    
+   pgClient.query('insert into guest (name, veg) values ($1, $2) returning id', [name, veg]).on('row', function (row) {
+   	   var guest = row;
+	   
+   	   checked = getBool(req.body.day3);
+	   cooking = getBool(req.body.cooking3);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 3, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day4);
+	   cooking = getBool(req.body.cooking4);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 4, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day5);
+	   cooking = getBool(req.body.cooking5);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 5, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day6);
+	   cooking = getBool(req.body.cooking6);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 6, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day7);
+	   cooking = getBool(req.body.cooking7);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 7, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day8);
+	   cooking = getBool(req.body.cooking8);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 8, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day9);
+	   cooking = getBool(req.body.cooking9);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 9, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day10);
+	   cooking = getBool(req.body.cooking10);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 10, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day11);
+	   cooking = getBool(req.body.cooking11);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 11, cooking]);
+	   }
+	   
+   	   checked = getBool(req.body.day12);
+	   cooking = getBool(req.body.cooking12);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 12, cooking]);
+	   }
+	   
+	   checked = getBool(req.body.day13);
+	   cooking = getBool(req.body.cooking13);
+	   if (checked) {
+		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 14, cooking]);
+		   res.redirect('/');
+	   }
+	   
+   });
+
+   
+    
+});
