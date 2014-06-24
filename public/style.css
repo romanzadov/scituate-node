@@ -1,9 +1,9 @@
 html {
  background-image:url("./beach.jpg");
- background-size: 100%;
+ background-size: 1536px 900px;
 }
 body {
- width: 1100px;
+ width: 1200px;
  margin-left: auto;
  margin-right: auto;
  color: #333;
@@ -11,12 +11,8 @@ body {
 }
 
 h1 {
-	margin-top: 60px;
-	padding-top: 20px;
+	font-size: 50px;
 	text-align: center;
-}
-table {
-	background: 
 }
 table tr.total_veg {
 	
@@ -32,13 +28,21 @@ table th {
 table tr td {
 	text-align: center;
 	margin: 1px;
-	vertical-align: center;
+	vertical-align: middle;
+}
+table tr td:nth-child(2), 
+table tr td:nth-child(3), 
+table tr td:nth-child(6), 
+table tr td:nth-child(9),
+table tr td:nth-child(12),
+table tr td:nth-child(13){
+	border-left: 4px solid #bbb;	
 }
 #grid table tr td.visit{
-	background: #4AB893;	
+	background: #E6E65C;	
 }
 table {
-	background: #bbb;
+	background-color: rgba(187,187,187,0.85);	
 	padding: 5px;
 }
 table tr td{
@@ -46,34 +50,45 @@ table tr td{
 }
 
 p {
-	max-width: 400px;
+	max-width: 350px;
 	margin-left: 40px;
 	float: left;
-	background: #bbb;
-}
-p.cooking {
-	float: right;
 	border-left: 1px solid #333;
 	margin-right: 30px;
-padding-left: 106px;
+	padding-left: 50px;
 }
 h2 {
-	font-size: 20px;
+	font-size: 36px;
 	padding-top: 40px;
-	margin-left: 40px;
-	margin-top: 0;
+	margin: 0 40px 0 50px ;
+	float: left;
+	color: white;
 }
 h4{
 	text-align: center;
 	margin-bottom: 0;
 	font-weight: normal;
-	font-size: 20px;
-	
+	font-size: 24px;
 }
 #signup_text, #header {
 	overflow: hidden;
 	background: #bbb;
 }
+#signup_text {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: 40px;
+	background-color: rgba(187,187,187,0.85);	
+}
 #header {
 	padding-bottom: 30px;
+	color: white;
+	background: none;
 }
+.remove input[type='submit']{
+	color: red;
+}
+form.remove {
+	margin:5px;
+}
+

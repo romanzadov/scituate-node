@@ -13,16 +13,24 @@ block content
        tr.total
         td="Total Visitors"
         each day, i in days
-          td=day.visitors
+          if day.visitors>0
+             td=day.visitors
+          else
+             td
        tr.total
         td="Total Veg"
-        each day, i in days	
-          td=day.veg
+        each day, i in days
+          if day.veg>0
+            td=day.veg
+          else
+            td
        tr.total
          td="Total Cooking"
          each day, i in days
-          td=day.cooking
-            
+          if day.cooking>0
+             td=day.cooking
+          else
+             td
        each guestVisitRow, i in guestVisitRows
              tr
              
@@ -36,13 +44,13 @@ block content
                   else
                     td
                td
-                 form(action='/api/guests/remove', method='post')
+                 form(action='/api/guests/remove', method='post').remove
                     input(type="hidden", name="guest", value=guestVisitRow.guest.id)
                     input(type="submit", value="X")
   
 #signup_text                   
   h2.
-   Sign up here:
+   Sign up!
   p.
     What times do you think you'll be in Scituate? You don't have to be 100% sure, I'm just trying to get a ballpark figure. If you think there's more than a 50% chance, say yes.
   p.cooking="To avoid kitchen conflicts, click on when you want to cook. You don't have to cook - you can bring something - or even better just bring yourself."
