@@ -180,9 +180,7 @@ app.post('/api/guests/add', function(req, res) {
 	   if (checked) {
 		   pgClient.query('insert into visit (guest_id, day_id, cooking) values ($1, $2, $3)', [guest.id, 11, cooking]);
 	   }
-
+       res.redirect('/');
    });
-
-   
     
 });
